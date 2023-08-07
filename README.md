@@ -20,6 +20,8 @@
     <img src="demo.gif" alt="Traffic Analyzer Demo">
 </p>
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
 ## Features
 
 - **Capture Insights**: Analyze network traffic in real-time or from pcap files.
