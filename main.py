@@ -7,7 +7,6 @@ from traffic_analyzer.analyze import analyze_traffic
 from traffic_analyzer.visualize import update_visualizations
 
 def setup_logger():
-    # Настройка логирования
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s [%(levelname)s]: %(message)s',
@@ -18,7 +17,6 @@ def setup_logger():
     )
 
 def get_default_interface():
-    # Определение интерфейса по умолчанию в зависимости от ОС
     return psutil.net_io_counters(pernic=True).keys().__iter__().__next__()
 
 def data_processing(interface, packet_count, queue):
@@ -30,7 +28,7 @@ def real_time_visualization(queue):
     while True:
         results = queue.get()
         update_visualizations(results)
-        time.sleep(5)  # Обновляем графики каждые 5 секунд
+        time.sleep(5)
 
 def main():
     setup_logger()
