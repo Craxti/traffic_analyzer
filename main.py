@@ -3,16 +3,8 @@ import psutil
 import time
 from multiprocessing import Process, Queue
 from traffic_analyzer.capture import capture_traffic
-from traffic_analyzer.analyze import analyze_traffic, detect_attacks
-from traffic_analyzer.visualize import (
-    visualize_protocol_counts,
-    visualize_ip_counts,
-    visualize_port_counts,
-    visualize_packet_sizes,
-    visualize_packet_times,
-    visualize_top_items,
-    update_visualizations,
-)
+from traffic_analyzer.analyze import analyze_traffic
+from traffic_analyzer.visualize import update_visualizations
 
 def setup_logger():
     # Настройка логирования
