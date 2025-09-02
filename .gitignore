@@ -129,9 +129,7 @@ dmypy.json
 .pyre/
 
 # Traffic Analyzer specific
-*.pcap
-*.pcapng
-traffic_analyzer.log
+*.log
 demo_results.json
 test_results.json
 tools/npcap-installer.exe
