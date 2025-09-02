@@ -3,6 +3,8 @@ import ipaddress
 
 
 def format_time(timestamp):
+    if timestamp is None:
+        return "N/A"
     return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
 
 

@@ -41,11 +41,36 @@
 
 ## Installation
 
-Install Traffic Analyzer using pip:
+### Automatic Installation
+
+Traffic Analyzer includes automatic Npcap installation for Windows users:
 
 ```bash
+# Install the package
 pip install traffic_analyzer
+
+# Run the Npcap installer (Windows only, requires admin rights)
+python install_npcap.py
 ```
+
+### Manual Installation
+
+For manual installation or if automatic installation fails:
+
+1. **Install Python dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Install Npcap (Windows only):**
+   - Download from: https://npcap.com/
+   - Run installer with administrator rights
+   - Restart your system if prompted
+
+3. **Verify installation:**
+   ```bash
+   python demo.py
+   ```
 
 ## Usage
 

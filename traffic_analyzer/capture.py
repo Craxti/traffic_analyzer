@@ -1,7 +1,8 @@
 import logging
 import os
 
-from scapy.all import PcapReader, sniff
+from scapy.all import PcapReader, sniff, IP, TCP, UDP, DNS, DNSQR, Raw
+from .npcap_manager import check_capture_ready, ensure_npcap_available
 
 
 def capture_traffic(interface, packet_count, filter=None):
@@ -14,6 +15,13 @@ def capture_traffic(interface, packet_count, filter=None):
     :return: List of captured packets.
     """
     try:
+        # Check if capture is ready (Npcap installed on Windows)
+        if not check_capture_ready():
+            logging.warning("Npcap not available. Attempting to install...")
+            if not ensure_npcap_available():
+                logging.error("Failed to setup Npcap. Traffic capture may not work.")
+                return []
+        
         logging.info("Capturing traffic on interface: %s", interface)
 
         if filter:
@@ -161,3 +169,40 @@ def get_packet_info(packet):
             break
     
     return info
+
+
+def create_test_packets():
+    """
+    Create synthetic test packets for testing purposes.
+    
+    :return: List of synthetic packets.
+    """
+    packets = []
+    
+    try:
+        # Create HTTP packet
+        http_packet = IP(dst="192.168.1.1") / TCP(dport=80) / Raw(load="GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
+        packets.append(http_packet)
+        
+        # Create HTTPS packet
+        https_packet = IP(dst="192.168.1.1") / TCP(dport=443) / Raw(load="\x16\x03\x01\x00\x01\x01")
+        packets.append(https_packet)
+        
+        # Create DNS packet
+        dns_packet = IP(dst="8.8.8.8") / UDP(dport=53) / DNS(rd=1, qd=DNSQR(qname="example.com"))
+        packets.append(dns_packet)
+        
+        # Create TCP packet
+        tcp_packet = IP(dst="192.168.1.100") / TCP(dport=22)
+        packets.append(tcp_packet)
+        
+        # Create UDP packet
+        udp_packet = IP(dst="192.168.1.100") / UDP(dport=123)
+        packets.append(udp_packet)
+        
+        logging.info("Created %d test packets", len(packets))
+        return packets
+        
+    except Exception as e:
+        logging.error("Error creating test packets: %s", str(e))
+        return []

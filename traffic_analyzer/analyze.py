@@ -44,8 +44,10 @@ def analyze_network_activity(packets):
     activity_counts = {}
 
     for packet in packets:
-        activity_type = packet[1].name
-        activity_counts[activity_type] = activity_counts.get(activity_type, 0) + 1
+        layers = packet.layers()
+        if len(layers) > 1:
+            activity_type = layers[1]  # layers() returns list of strings
+            activity_counts[activity_type] = activity_counts.get(activity_type, 0) + 1
 
     return activity_counts
 
@@ -127,8 +129,11 @@ def analyze_traffic(packets):
     packet_times = []
 
     for packet in packets:
-        protocol = packet[1].name
-        protocol_counts[protocol] = protocol_counts.get(protocol, 0) + 1
+        # Get protocol from the second layer (first is usually Raw)
+        layers = packet.layers()
+        if len(layers) > 1:
+            protocol = layers[1]  # layers() returns list of strings
+            protocol_counts[protocol] = protocol_counts.get(protocol, 0) + 1
 
         if IP in packet:
             source_ip = packet[IP].src
